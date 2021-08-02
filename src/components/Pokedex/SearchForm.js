@@ -82,7 +82,7 @@ const SearchFormStyled = styled.div`
     padding: 1rem 0;
     background-color: #555;
     border: none;
-    border-radius: 0 0 15px 15px;
+    border-radius: 0 0 20px 20px / 0 0 50px 50px;
     color: #f5f5f5;
     cursor: pointer;
   }
