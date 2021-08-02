@@ -4,7 +4,8 @@
   --c-grass: #9bcc50;
   --c-poison: #b97fc9;
   --c-fire: #fd7d24;
-  --c-flying: #3dc7ef;
+  --c-flying-1: #3dc7ef;
+  --c-flying-2: #bdb9b8;
   --c-water: #4592c4;
   --c-bug: #729f3f;
   --c-normal: #a4acaf;
@@ -54,7 +55,11 @@ img {
   background-color: var(--c-fire);
 }
 .flying {
-  background-color: var(--c-flying);
+  background: linear-gradient(
+    to bottom right,
+    var(--c-flying-1),
+    var(--c-flying-2)
+  );
 }
 .water {
   background-color: var(--c-water);
