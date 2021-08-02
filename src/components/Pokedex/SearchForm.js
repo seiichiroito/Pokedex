@@ -27,7 +27,12 @@ const SearchForm = ({ onInputChange, onTypeChange }) => {
       <form onSubmit={submitHandler}>
         <div>
           <AiOutlineSearch />
-          <input type="text" id="search" onChange={changeHandler} />
+          <input
+            type="text"
+            id="search"
+            onChange={changeHandler}
+            placeholder="search by name"
+          />
         </div>
       </form>
       <AdvanceSearch show={showAdvance} onChangeTypes={changeTypesHandler} />
@@ -61,6 +66,12 @@ const SearchFormStyled = styled.div`
     padding: 0.5rem 2.5rem;
     font-size: 1.5rem;
     width: 100%;
+    &::placeholder {
+      color: #999;
+    }
+    &:focus {
+      outline-color: #203a43;
+    }
   }
   svg {
     font-size: 1.5rem;
