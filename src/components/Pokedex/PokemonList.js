@@ -55,6 +55,7 @@ const PokemonListStyled = styled.div`
       font-size: 1.125rem;
       border-radius: 5px;
       color: var(--c-water);
+      background-color: #efefef;
       &:hover {
         background-color: var(--c-water);
         color: #f5f5f5;
