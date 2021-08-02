@@ -118,10 +118,10 @@ const AdvanceSearchStyeled = styled.div`
   .fading-enter-done {
     padding-top: 2rem;
     padding-bottom: 2rem;
-    max-height: 30rem;
+    max-height: 100vh;
   }
   .fading-exit {
-    max-height: 30rem;
+    max-height: 100vh;
   }
   .fading-exit-active,
   .fading-exit-done {

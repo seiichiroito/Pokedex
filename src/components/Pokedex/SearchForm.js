@@ -60,6 +60,7 @@ const SearchFormStyled = styled.div`
   input {
     padding: 0.5rem 2.5rem;
     font-size: 1.5rem;
+    width: 100%;
   }
   svg {
     font-size: 1.5rem;

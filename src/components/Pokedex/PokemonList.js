@@ -4,7 +4,7 @@ import PokemonCard from "./PokemonCard";
 
 const PokemonList = ({ pokemons, seeAllHandler }) => {
   const clickCardHandler = (pokemonName) => {
-    console.log(pokemonName);
+    // console.log(pokemonName);
   };
   return (
     <PokemonListStyled>
