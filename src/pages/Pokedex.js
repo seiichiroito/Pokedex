@@ -70,8 +70,13 @@ const Pokedex = () => {
 
   const searchInputChangeHandler = (inputValue) => {
     let updatedPokemons;
+
     if (!inputValue) {
-      updatedPokemons = allPokemons.slice(0, 20);
+      if (selectedTypes) {
+        updatedPokemons = allPokemons;
+      } else {
+        updatedPokemons = allPokemons.slice(0, 20);
+      }
     } else {
       updatedPokemons = allPokemons.filter((pokemon) => {
         return pokemon.name.includes(inputValue);
