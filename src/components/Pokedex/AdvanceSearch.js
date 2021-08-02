@@ -144,6 +144,7 @@ const AdvanceSearchStyeled = styled.div`
       border: none;
       padding: 0.25rem 0.5rem;
       border-radius: 5px;
+      background-color: #f3f3f3;
     }
   }
   .content {
