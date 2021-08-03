@@ -81,16 +81,15 @@ const AdvanceSearch = ({ show, onChangeTypes }) => {
             <div className="content">
               {types.map((type) => {
                 return (
-                  <button
+                  <TypeButton
                     id={type}
-                    className={`${type} ${
-                      selectedTypes.has(type) ? "" : "disabled"
-                    }`}
+                    type={type}
+                    className={`${selectedTypes.has(type) ? "" : "disabled"}`}
                     key={type}
                     onClick={clickHandler}
                   >
                     {type}
-                  </button>
+                  </TypeButton>
                 );
               })}
             </div>
@@ -100,6 +99,34 @@ const AdvanceSearch = ({ show, onChangeTypes }) => {
     </AdvanceSearchStyeled>
   );
 };
+
+const TypeButton = styled.button`
+  color: var(--c-text-dark);
+  border: 1px solid #f5f5f5;
+  box-shadow: 2px 5px 3px rgba(0, 0, 0, 0.1);
+  padding: 6px 0;
+
+  background: ${({ theme, type }) => {
+    const typeColor = theme[type];
+    if (typeof typeColor === "string") {
+      return typeColor;
+    } else {
+      return `linear-gradient(to bottom right, ${typeColor[0]}, ${typeColor[1]})`;
+    }
+  }};
+
+  border-radius: 5px;
+  text-transform: capitalize;
+  &:active {
+    transform: translateY(2px);
+  }
+  &.disabled {
+    padding: 8px 0;
+    border: none;
+    background: unset;
+    background-color: #999;
+  }
+`;
 
 const AdvanceSearchStyeled = styled.div`
   section {
@@ -151,24 +178,6 @@ const AdvanceSearchStyeled = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 1rem;
-    button {
-      color: var(--c-text-dark);
-      border: 1px solid #f5f5f5;
-      box-shadow: 2px 5px 3px rgba(0, 0, 0, 0.1);
-      padding: 6px 0;
-
-      border-radius: 5px;
-      text-transform: capitalize;
-      &:active {
-        transform: translateY(2px);
-      }
-      &.disabled {
-        padding: 8px 0;
-        border: none;
-        background: unset;
-        background-color: #999;
-      }
-    }
   }
 
   p {

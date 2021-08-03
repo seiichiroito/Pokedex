@@ -54,10 +54,10 @@ const PokemonListStyled = styled.div`
       padding: 0.5rem 3rem;
       font-size: 1.125rem;
       border-radius: 5px;
-      color: var(--c-water);
+      color: ${({ theme }) => theme.water};
       background-color: #efefef;
       &:hover {
-        background-color: var(--c-water);
+        background-color: ${({ theme }) => theme.water};
         color: #f5f5f5;
       }
     }

@@ -1,11 +1,13 @@
 import React from "react";
 import Pokedex from "./pages/Pokedex";
+import { theme } from "./css/style";
 
+import { ThemeProvider } from "styled-components";
 const App = () => {
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <Pokedex />
-    </div>
+    </ThemeProvider>
   );
 };
 
