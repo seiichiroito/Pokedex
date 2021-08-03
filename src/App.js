@@ -1,12 +1,17 @@
-import React from "react";
-import Pokedex from "./pages/Pokedex";
+import { ThemeProvider } from "styled-components";
+import { Route, Switch } from "react-router-dom";
 import { theme } from "./css/style";
 
-import { ThemeProvider } from "styled-components";
+import Pokedex from "./pages/Pokedex";
+import Pokemon from "./pages/Pokemon";
+
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <Pokedex />
+      <Switch>
+        <Route path="/" exact component={Pokedex} />
+        <Route path="/:name" component={Pokemon} />
+      </Switch>
     </ThemeProvider>
   );
 };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useInView } from "react-intersection-observer";
 import { rgba, lighten } from "polished";
+import { Link } from "react-router-dom";
 const PokemonCard = ({ pokemon, onClickCard }) => {
   const [hoverPokemon, setHoverPokemon] = useState(null);
   const [visible, setVisible] = useState(false);
@@ -30,36 +31,38 @@ const PokemonCard = ({ pokemon, onClickCard }) => {
   };
 
   return (
-    <PokemonCardStyled
-      onMouseEnter={hoverHandler}
-      onMouseLeave={hoverLeaveHandler}
-      className={`card ${visible ? "active" : ""}`}
-      id={pokemon.name}
-      onClick={clickHandler}
-      types={pokemon.types}
-      ref={ref}
-    >
-      <div className="header">
-        {hoverPokemon === pokemon.name ? (
-          <img src={pokemon.hoverImage} alt={pokemon.name} />
-        ) : (
-          <img src={pokemon.image} alt={pokemon.name} />
-        )}
-      </div>
-      <div className="detail">
-        <p className="id">#{pokemon.id.toString().padStart(3, "0")}</p>
-        <p className="name">{pokemon.name}</p>
-        <ul>
-          {pokemon.types.map(({ type }) => {
-            return (
-              <TypeTag key={type.name} type={type.name}>
-                {type.name}
-              </TypeTag>
-            );
-          })}
-        </ul>
-      </div>
-    </PokemonCardStyled>
+    <Link to={`/${pokemon.name}`}>
+      <PokemonCardStyled
+        onMouseEnter={hoverHandler}
+        onMouseLeave={hoverLeaveHandler}
+        className={`card ${visible ? "active" : ""}`}
+        id={pokemon.name}
+        onClick={clickHandler}
+        types={pokemon.types}
+        ref={ref}
+      >
+        <div className="header">
+          {hoverPokemon === pokemon.name ? (
+            <img src={pokemon.hoverImage} alt={pokemon.name} />
+          ) : (
+            <img src={pokemon.image} alt={pokemon.name} />
+          )}
+        </div>
+        <div className="detail">
+          <p className="id">#{pokemon.id.toString().padStart(3, "0")}</p>
+          <p className="name">{pokemon.name}</p>
+          <ul>
+            {pokemon.types.map(({ type }) => {
+              return (
+                <TypeTag key={type.name} type={type.name}>
+                  {type.name}
+                </TypeTag>
+              );
+            })}
+          </ul>
+        </div>
+      </PokemonCardStyled>
+    </Link>
   );
 };
 
