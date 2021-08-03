@@ -1,8 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
+import { useInView } from "react-intersection-observer";
 import { rgba, lighten } from "polished";
 const PokemonCard = ({ pokemon, onClickCard }) => {
   const [hoverPokemon, setHoverPokemon] = useState(null);
+  const [visible, setVisible] = useState(false);
+
+  const { ref, inView } = useInView({
+    /* Optional options */
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      setVisible(true);
+    }
+  }, [inView]);
 
   const hoverHandler = (e) => {
     const name = e.target.closest(".card").id;
@@ -20,10 +33,11 @@ const PokemonCard = ({ pokemon, onClickCard }) => {
     <PokemonCardStyled
       onMouseEnter={hoverHandler}
       onMouseLeave={hoverLeaveHandler}
-      className="card"
+      className={`card ${visible ? "active" : ""}`}
       id={pokemon.name}
       onClick={clickHandler}
       types={pokemon.types}
+      ref={ref}
     >
       <div className="header">
         {hoverPokemon === pokemon.name ? (
@@ -113,6 +127,13 @@ const PokemonCardStyled = styled.div`
         )}, ${rgba(typeColor[1], theme.alpha.sm)})`;
       }
     }};
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.3s ease-in;
+    &.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
     .header {
       background: ${({ theme, types }) => {
         const typeColor = theme[types[0].type.name];
