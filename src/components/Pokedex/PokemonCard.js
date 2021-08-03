@@ -99,6 +99,7 @@ const TypeTag = styled.li`
 const PokemonCardStyled = styled.div`
   border-radius: 15px;
   box-shadow: 20px 20px 60px #c9c9c9, -20px -20px 60px #ffffff;
+  backdrop-filter: blur(5px);
 
   &.card {
     background: ${({ theme, types }) => {
