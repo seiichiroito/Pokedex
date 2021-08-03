@@ -21,7 +21,7 @@ const Hero = ({ pokemons }) => {
     return (
       <HeroStyled>
         <ul>
-          {[...Array(150)].map((_, i) => {
+          {[...Array(300)].map((_, i) => {
             return <li key={i}></li>;
           })}
         </ul>
@@ -77,7 +77,7 @@ const HeroStyled = styled.div`
 
   ul {
     display: grid;
-    grid-template-columns: repeat(51, 100px);
+    grid-template-columns: repeat(75, 100px);
     list-style: none;
     animation: ${moveToLeft} 300s linear infinite alternate;
   }

@@ -7,7 +7,7 @@ import Hero from "../components/Pokedex/Hero";
 import SearchForm from "../components/Pokedex/SearchForm";
 import PokemonList from "../components/Pokedex/PokemonList";
 
-const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=151";
+const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=300";
 
 const Pokedex = () => {
   const { sendRequest } = useHttp();
