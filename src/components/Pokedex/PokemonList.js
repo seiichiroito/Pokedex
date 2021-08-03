@@ -58,7 +58,7 @@ const PokemonListStyled = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
-    .header {
+    > .header {
       grid-column: 1 / -1;
       display: flex;
       justify-content: space-between;
