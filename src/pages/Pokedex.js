@@ -14,6 +14,8 @@ const Pokedex = () => {
   const [allPokemons, setAllPokemons] = useState([]);
   const [filteredPokemons, setFilteredPokemons] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState(null);
+  const [searchInput, setsearchInput] = useState("");
+  const [sort, setSort] = useState(null);
 
   const fetchPokemons = useCallback(async () => {
     const data = await sendRequest({
@@ -38,19 +40,72 @@ const Pokedex = () => {
     setAllPokemons(pokemonsData);
   }, [sendRequest]);
 
-  const filterByTypes = useCallback(
+  const modifyPokemons = useCallback(
     (pokemons) => {
-      if (!selectedTypes) {
-        return pokemons;
+      let updatedPokemons = [...pokemons];
+
+      // Sort
+      switch (sort) {
+        case "lowest":
+          updatedPokemons.sort((a, b) => {
+            return a.id - b.id;
+          });
+          break;
+        case "highest":
+          updatedPokemons.sort((a, b) => {
+            return b.id - a.id;
+          });
+          break;
+        case "asc":
+          updatedPokemons.sort((a, b) => {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          });
+          break;
+        case "desc":
+          updatedPokemons.sort((a, b) => {
+            if (a.name < b.name) {
+              return 1;
+            }
+            if (a.name > b.name) {
+              return -1;
+            }
+            return 0;
+          });
+          break;
+
+        default:
+          break;
       }
 
-      return pokemons.filter((pokemon) => {
-        return pokemon.types.some(({ type }) => {
-          return selectedTypes.has(type.name);
+      // Default Value
+      if (!selectedTypes && !searchInput) {
+        updatedPokemons = updatedPokemons.slice(0, 20);
+      }
+      // Filter by Type
+      if (selectedTypes) {
+        updatedPokemons = updatedPokemons.filter((pokemon) => {
+          return pokemon.types.some(({ type }) => {
+            return selectedTypes.has(type.name);
+          });
         });
-      });
+      }
+
+      // Filter by Search Input
+      if (searchInput) {
+        updatedPokemons = updatedPokemons.filter((pokemon) => {
+          return pokemon.name.includes(searchInput.toLowerCase());
+        });
+      }
+
+      return updatedPokemons;
     },
-    [selectedTypes]
+    [searchInput, selectedTypes, sort]
   );
 
   useEffect(() => {
@@ -62,28 +117,12 @@ const Pokedex = () => {
   }, [allPokemons]);
 
   useEffect(() => {
-    if (!selectedTypes) return;
-
-    const result = filterByTypes(allPokemons);
+    const result = modifyPokemons(allPokemons);
     setFilteredPokemons(result);
-  }, [allPokemons, filterByTypes, selectedTypes]);
+  }, [allPokemons, modifyPokemons]);
 
   const searchInputChangeHandler = (inputValue) => {
-    let updatedPokemons;
-
-    if (!inputValue) {
-      if (selectedTypes) {
-        updatedPokemons = allPokemons;
-      } else {
-        updatedPokemons = allPokemons.slice(0, 20);
-      }
-    } else {
-      updatedPokemons = allPokemons.filter((pokemon) => {
-        return pokemon.name.includes(inputValue);
-      });
-    }
-
-    setFilteredPokemons(filterByTypes(updatedPokemons));
+    setsearchInput(inputValue);
   };
 
   const searchTypeChangeHandler = (selectedTypes) => {
@@ -92,6 +131,10 @@ const Pokedex = () => {
 
   const seeAllHandler = () => {
     setFilteredPokemons(allPokemons);
+  };
+
+  const changeSortHandler = (sort) => {
+    setSort(sort);
   };
 
   return (
@@ -110,6 +153,7 @@ const Pokedex = () => {
         <PokemonList
           pokemons={filteredPokemons}
           seeAllHandler={seeAllHandler}
+          onChangeSort={changeSortHandler}
         />
       </div>
     </Layout>

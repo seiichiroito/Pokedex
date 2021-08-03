@@ -2,14 +2,31 @@ import styled from "styled-components";
 import bgImage from "../../assets/image/bg.svg";
 import PokemonCard from "./PokemonCard";
 
-const PokemonList = ({ pokemons, seeAllHandler }) => {
+const PokemonList = ({ pokemons, seeAllHandler, onChangeSort }) => {
   const clickCardHandler = (pokemonName) => {
     // console.log(pokemonName);
+  };
+
+  const changeSortHandler = (e) => {
+    onChangeSort(e.target.value);
   };
   return (
     <PokemonListStyled>
       <div className="container">
-        <p>計 {pokemons.length}匹</p>
+        <div className="header">
+          <p>計 {pokemons.length}匹</p>
+          <div>
+            <label htmlFor="sort">Sort</label>
+
+            <select name="pets" id="sort" onChange={changeSortHandler}>
+              <option value="">Sort results by...</option>
+              <option value="lowest">Lowest Number</option>
+              <option value="highest">Highest Number</option>
+              <option value="asc">A-Z</option>
+              <option value="desc">Z-A</option>
+            </select>
+          </div>
+        </div>
         {pokemons.map((pokemon) => {
           return (
             <PokemonCard
@@ -41,8 +58,18 @@ const PokemonListStyled = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
-    > p {
+    .header {
       grid-column: 1 / -1;
+      display: flex;
+      justify-content: space-between;
+      div {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      select {
+        padding: 0.25rem 1rem;
+      }
     }
   }
   .seeAll {
