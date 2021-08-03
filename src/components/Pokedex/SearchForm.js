@@ -11,7 +11,7 @@ const SearchForm = ({ onInputChange, onTypeChange }) => {
     e.preventDefault();
   };
   const changeHandler = (e) => {
-    onInputChange(e.target.value);
+    onInputChange(e.target.value.toLowerCase());
   };
 
   const toggleAdvanceHandler = () => {

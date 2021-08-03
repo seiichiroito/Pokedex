@@ -17,7 +17,9 @@ const Header = () => {
 
 const HeaderStyled = styled.header`
   padding: 1rem 0;
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  background: linear-gradient(to right, #f12711, #f5af19);
+
+  /* background: linear-gradient(to right, #0f2027, #203a43, #2c5364); */
   position: relative;
   p {
     font-size: 2em;
