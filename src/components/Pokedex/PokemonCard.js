@@ -80,11 +80,11 @@ const TypeTag = styled.li`
   box-shadow: ${({ theme, type }) => {
     const typeColor = theme[type];
     if (typeof typeColor === "string") {
-      return `5px 5px 10px ${lighten(0.3, typeColor)},
-          -5px -5px 10px ${lighten(0.5, typeColor)}`;
+      return `3px 3px 5px ${lighten(0.1, typeColor)},
+          -3px -3px 5px ${lighten(0.2, typeColor)}`;
     } else {
-      return `5px 5px 10px ${lighten(0.3, typeColor[0])},
-          -5px -5px 10px ${lighten(0.5, typeColor[0])}`;
+      return `3px 3px 5px ${lighten(0.1, typeColor[0])},
+          -3px -3px 5px ${lighten(0.2, typeColor[0])}`;
     }
   }};
   background: ${({ theme, type }) => {
