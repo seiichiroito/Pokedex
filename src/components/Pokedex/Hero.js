@@ -88,15 +88,19 @@ const HeroStyled = styled.div`
     aspect-ratio: 1;
     padding: 0.5rem;
     border: 1px solid #ddd;
-    display: flex;
-    justify-content: center;
     position: relative;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+
     background-color: #fff;
     transition: transform 0.5s ease;
     &:hover {
       transform: scale(1.2);
       z-index: 5;
+    }
+    a {
+      display: flex;
     }
   }
   .overlay {
