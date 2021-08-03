@@ -7,7 +7,9 @@ import Hero from "../components/Pokedex/Hero";
 import SearchForm from "../components/Pokedex/SearchForm";
 import PokemonList from "../components/Pokedex/PokemonList";
 
+// const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=151";
 const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=300";
+// const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=494";
 
 const Pokedex = () => {
   const { sendRequest } = useHttp();
@@ -84,7 +86,7 @@ const Pokedex = () => {
       }
 
       // Default Value
-      if (!selectedTypes && !searchInput) {
+      if (!selectedTypes && !searchInput && !sort) {
         updatedPokemons = updatedPokemons.slice(0, 20);
       }
       // Filter by Type
@@ -99,6 +101,7 @@ const Pokedex = () => {
       // Filter by Search Input
       if (searchInput) {
         updatedPokemons = updatedPokemons.filter((pokemon) => {
+          // Search by case insensitive
           return pokemon.name.includes(searchInput.toLowerCase());
         });
       }
@@ -111,10 +114,6 @@ const Pokedex = () => {
   useEffect(() => {
     fetchPokemons();
   }, [fetchPokemons]);
-
-  useEffect(() => {
-    setFilteredPokemons(allPokemons.slice(0, 20));
-  }, [allPokemons]);
 
   useEffect(() => {
     const result = modifyPokemons(allPokemons);
@@ -153,7 +152,7 @@ const Pokedex = () => {
         <PokemonList
           pokemons={filteredPokemons}
           seeAllHandler={seeAllHandler}
-          onChangeSort={changeSortHandler}
+          onSortChange={changeSortHandler}
         />
       </div>
     </Layout>

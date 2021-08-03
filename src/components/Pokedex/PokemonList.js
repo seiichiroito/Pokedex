@@ -2,13 +2,13 @@ import styled from "styled-components";
 import bgImage from "../../assets/image/bg.svg";
 import PokemonCard from "./PokemonCard";
 
-const PokemonList = ({ pokemons, seeAllHandler, onChangeSort }) => {
+const PokemonList = ({ pokemons, seeAllHandler, onSortChange }) => {
   const clickCardHandler = (pokemonName) => {
     // console.log(pokemonName);
   };
 
   const changeSortHandler = (e) => {
-    onChangeSort(e.target.value);
+    onSortChange(e.target.value);
   };
   return (
     <PokemonListStyled>
