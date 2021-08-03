@@ -48,6 +48,7 @@ img {
 .grass {
   background-color: var(--c-grass);
 }
+
 .poison {
   background-color: var(--c-poison);
 }

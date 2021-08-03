@@ -20,7 +20,7 @@ const PokemonCard = ({ pokemon, onClickCard }) => {
     <PokemonCardStyled
       onMouseEnter={hoverHandler}
       onMouseLeave={hoverLeaveHandler}
-      className="card"
+      className={`card ${pokemon.types[0].type.name}-card`}
       id={pokemon.name}
       onClick={clickHandler}
     >
@@ -72,16 +72,104 @@ const wobbleHorBottom = keyframes`
 `;
 
 const PokemonCardStyled = styled.div`
-  /* background-color: #555; */
-  background-color: #fff;
-  box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
+  box-shadow: 20px 20px 60px #c9c9c9, -20px -20px 60px #ffffff;
+
+  &.grass-card {
+    background-color: #9bcc5033;
+    .header {
+      background: #9bcc5099;
+    }
+  }
+  &.fire-card {
+    background-color: #fd7d2433;
+    .header {
+      background: #fd7d2499;
+    }
+  }
+  &.water-card {
+    background-color: #4592c433;
+    .header {
+      background: #4592c499;
+    }
+  }
+  &.bug-card {
+    background-color: #729f3f33;
+    .header {
+      background: #729f3f99;
+    }
+  }
+  &.normal-card {
+    background-color: #a4acaf33;
+    .header {
+      background: #a4acaf99;
+    }
+  }
+  &.poison-card {
+    background-color: #b97fc933;
+    .header {
+      background: #b97fc999;
+    }
+  }
+  &.electric-card {
+    background-color: #eed53533;
+    .header {
+      background: #eed53599;
+    }
+  }
+  &.ground-card {
+    background: linear-gradient(to bottom right, #f7de3f33, #ab984233);
+    .header {
+      background: linear-gradient(to bottom right, #f7de3f99, #ab984299);
+    }
+  }
+  &.fairy-card {
+    background-color: #fdb9e933;
+    .header {
+      background: #fdb9e999;
+    }
+  }
+  &.rock-card {
+    background-color: #a38c2133;
+    .header {
+      background: #a38c2199;
+    }
+  }
+  &.fighting-card {
+    background-color: #d5672333;
+    .header {
+      background: #d5672399;
+    }
+  }
+  &.psychic-card {
+    background-color: #f366b933;
+    .header {
+      background: #f366b999;
+    }
+  }
+  &.ice-card {
+    background-color: #51c4e733;
+    .header {
+      background: #51c4e799;
+    }
+  }
+  &.ghost-card {
+    background-color: #7b62a333;
+    .header {
+      background: #7b62a399;
+    }
+  }
+  &.dragon-card {
+    background: linear-gradient(to bottom right, #53a4cf33, #f16e5733);
+    .header {
+      background: linear-gradient(to bottom right, #53a4cf99, #f16e5799);
+    }
+  }
   &:hover {
     animation: ${wobbleHorBottom} 0.8s both;
   }
   .header {
     padding: 2rem;
-    background-color: #eee;
     display: flex;
     justify-content: center;
     aspect-ratio: 1;
@@ -109,7 +197,7 @@ const PokemonCardStyled = styled.div`
     /* flex-wrap: wrap; */
   }
   li {
-    padding: 0.25rem 1.5rem;
+    padding: 0.25rem 1.25rem;
     border-radius: 5px;
     font-size: 0.875rem;
     text-transform: capitalize;
