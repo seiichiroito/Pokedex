@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { rgba } from "polished";
+import { rgba, lighten } from "polished";
 const PokemonCard = ({ pokemon, onClickCard }) => {
   const [hoverPokemon, setHoverPokemon] = useState(null);
 
@@ -77,6 +77,16 @@ const TypeTag = styled.li`
   border-radius: 5px;
   font-size: 0.875rem;
   text-transform: capitalize;
+  box-shadow: ${({ theme, type }) => {
+    const typeColor = theme[type];
+    if (typeof typeColor === "string") {
+      return `5px 5px 10px ${lighten(0.3, typeColor)},
+          -5px -5px 10px ${lighten(0.5, typeColor)}`;
+    } else {
+      return `5px 5px 10px ${lighten(0.3, typeColor[0])},
+          -5px -5px 10px ${lighten(0.5, typeColor[0])}`;
+    }
+  }};
   background: ${({ theme, type }) => {
     const typeColor = theme[type];
     if (typeof typeColor === "string") {
