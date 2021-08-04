@@ -6,6 +6,7 @@ import useHttp from "../hooks/use-http";
 import Hero from "../components/Pokedex/Hero";
 import SearchForm from "../components/Pokedex/SearchForm";
 import PokemonList from "../components/Pokedex/PokemonList";
+import ToTopButton from "../components/UI/ToTopButton";
 
 // const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=151";
 const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=300";
@@ -160,6 +161,9 @@ const Pokedex = () => {
           seeAllHandler={seeAllHandler}
           onSortChange={changeSortHandler}
         />
+
+        {/* Move to Top Button */}
+        <ToTopButton />
       </div>
     </Layout>
   );
