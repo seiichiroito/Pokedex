@@ -120,16 +120,16 @@ const TypeTag = styled.li`
 `;
 const PokemonCardStyled = styled.div`
   border-radius: 15px;
-  /* backdrop-filter: blur(5px); */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: unset;
 
-  & {
-    opacity: 0;
-    transform: translateY(100px);
-    transition: all 0.3s ease-in;
-    &.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  opacity: 0;
+  transform: translateY(100px);
+  transition: all 0.3s ease-in;
+
+  &.active {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   &:hover {
