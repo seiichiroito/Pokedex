@@ -21,7 +21,8 @@ const Layout = ({ children }) => {
         />
 
         {/* Twitter */}
-        <meta name="twitter:card" content="summary" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@seiichiro_ito" />
         <meta name="twitter:url" content="https://sei-pokedex.vercel.app/" />
         <meta name="twitter:title" content="Pokedex" />
