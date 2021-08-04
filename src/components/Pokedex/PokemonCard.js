@@ -120,7 +120,7 @@ const TypeTag = styled.li`
 `;
 const PokemonCardStyled = styled.div`
   border-radius: 15px;
-  backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */
 
   & {
     opacity: 0;
@@ -137,15 +137,29 @@ const PokemonCardStyled = styled.div`
   }
 
   &.scene {
-    /* width: 100%; */
+    width: 100%;
     aspect-ratio: 2 / 3;
+    height: 100%;
     perspective: 600px;
-    display: flex;
+  }
+
+  @supports not (aspect-ratio: 2/ 3) {
+    &.scene::before {
+      float: left;
+      padding-top: 150%;
+      content: "";
+    }
+    &.scene::after {
+      display: block;
+      content: "";
+      clear: both;
+    }
   }
 
   .card {
     position: relative;
-    flex: 1;
+    width: 100%;
+    height: 100%;
     transition: transform 0.5s;
     transform-style: preserve-3d;
   }
@@ -201,7 +215,6 @@ const PokemonCardStyled = styled.div`
     .table {
       flex: 1;
       display: grid;
-      /* grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); */
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
 
@@ -270,6 +283,24 @@ const PokemonCardStyled = styled.div`
     display: flex;
     aspect-ratio: 1;
     border-radius: 10px 10px 0 0;
+    @supports not (aspect-ratio: 1) {
+      position: relative;
+      &::before {
+        float: left;
+        padding-top: 100%;
+        content: "";
+      }
+      &:after {
+        display: block;
+        content: "";
+        clear: both;
+      }
+      img {
+        position: absolute;
+        height: calc(100% - 4rem);
+        width: calc(100% - 4rem);
+      }
+    }
     img {
       flex: 1;
     }
