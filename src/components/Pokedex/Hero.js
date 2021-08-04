@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import { Link } from "react-router-dom";
 import { shuffle } from "../../helper.js";
 
 const Hero = ({ pokemons }) => {
@@ -41,14 +40,12 @@ const Hero = ({ pokemons }) => {
               onMouseEnter={hoverHandler}
               onMouseLeave={hoverLeaveHandler}
             >
-              <Link to={`/${pokemon.name}`}>
-                {hoverPokemon === pokemon.name && (
-                  <div className="overlay">
-                    <p>{pokemon.name}</p>
-                  </div>
-                )}
-                <img src={pokemon.image.default} alt={pokemon.name} />
-              </Link>
+              {hoverPokemon === pokemon.name && (
+                <div className="overlay">
+                  <p>{pokemon.name}</p>
+                </div>
+              )}
+              <img src={pokemon.image.default} alt={pokemon.name} />
             </li>
           );
         })}

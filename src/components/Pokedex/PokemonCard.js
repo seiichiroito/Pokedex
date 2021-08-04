@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { GrLinkNext } from "react-icons/gr";
 import { useInView } from "react-intersection-observer";
 import { rgba, lighten } from "polished";
-import { Link } from "react-router-dom";
 const PokemonCard = ({ pokemon }) => {
   const [visibleInScreen, setVisibleInScreen] = useState(false);
   const [flipped, setFlipped] = useState(false);
@@ -66,12 +64,6 @@ const PokemonCard = ({ pokemon }) => {
                 return <p key={ability.name}>{ability.name}</p>;
               })}
             </div>
-          </div>
-          <div className="detail-button">
-            <Link to={`/${pokemon.name}`}>
-              detail
-              <GrLinkNext />
-            </Link>
           </div>
         </div>
       </div>
