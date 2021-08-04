@@ -47,7 +47,7 @@ const Hero = ({ pokemons }) => {
                     <p>{pokemon.name}</p>
                   </div>
                 )}
-                <img src={pokemon.image} alt={pokemon.name} />
+                <img src={pokemon.image.default} alt={pokemon.name} />
               </Link>
             </li>
           );

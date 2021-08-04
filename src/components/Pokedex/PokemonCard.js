@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
+import { GrLinkNext } from "react-icons/gr";
 import { useInView } from "react-intersection-observer";
 import { rgba, lighten } from "polished";
 import { Link } from "react-router-dom";
-const PokemonCard = ({ pokemon, onClickCard }) => {
-  const [hoverPokemon, setHoverPokemon] = useState(null);
-  const [visible, setVisible] = useState(false);
-
+const PokemonCard = ({ pokemon }) => {
+  const [visibleInScreen, setVisibleInScreen] = useState(false);
+  const [flipped, setFlipped] = useState(false);
   const { ref, inView } = useInView({
     /* Optional options */
     threshold: 0,
@@ -14,55 +14,68 @@ const PokemonCard = ({ pokemon, onClickCard }) => {
 
   useEffect(() => {
     if (inView) {
-      setVisible(true);
+      setVisibleInScreen(true);
     }
   }, [inView]);
 
-  const hoverHandler = (e) => {
-    const name = e.target.closest(".card").id;
-    setHoverPokemon(name);
-  };
-  const hoverLeaveHandler = () => {
-    setHoverPokemon(null);
-  };
-
-  const clickHandler = () => {
-    onClickCard(pokemon.name);
+  const clickCardHandler = () => {
+    setFlipped((prevState) => !prevState);
   };
 
   return (
-    <Link to={`/${pokemon.name}`}>
-      <PokemonCardStyled
-        onMouseEnter={hoverHandler}
-        onMouseLeave={hoverLeaveHandler}
-        className={`card ${visible ? "active" : ""}`}
-        id={pokemon.name}
-        onClick={clickHandler}
-        types={pokemon.types}
-        ref={ref}
-      >
-        <div className="header">
-          {hoverPokemon === pokemon.name ? (
-            <img src={pokemon.hoverImage} alt={pokemon.name} />
-          ) : (
-            <img src={pokemon.image} alt={pokemon.name} />
-          )}
+    <PokemonCardStyled
+      className={`scene ${visibleInScreen ? "active" : ""}`}
+      id={pokemon.name}
+      onClick={clickCardHandler}
+      types={pokemon.types}
+      ref={ref}
+    >
+      <div className={`card ${flipped ? "is-flipped" : ""}`}>
+        <div className="card__face card__face--front">
+          <div className="header">
+            <img src={pokemon.image.default} alt={pokemon.name} />
+          </div>
+          <div className="detail">
+            <p className="id">#{pokemon.id.toString().padStart(3, "0")}</p>
+            <p className="name">{pokemon.name}</p>
+            <ul>
+              {pokemon.types.map(({ type }) => {
+                return (
+                  <TypeTag key={type.name} type={type.name}>
+                    {type.name}
+                  </TypeTag>
+                );
+              })}
+            </ul>
+          </div>
         </div>
-        <div className="detail">
-          <p className="id">#{pokemon.id.toString().padStart(3, "0")}</p>
-          <p className="name">{pokemon.name}</p>
-          <ul>
-            {pokemon.types.map(({ type }) => {
-              return (
-                <TypeTag key={type.name} type={type.name}>
-                  {type.name}
-                </TypeTag>
-              );
-            })}
-          </ul>
+        <div className="card__face card__face--back">
+          <img src={pokemon.image.icon} alt={pokemon.name} />
+          <div className="table">
+            <div>
+              <p>Height</p>
+              <p>{(pokemon.height * 0.1).toPrecision(2)} m</p>
+            </div>
+            <div>
+              <p>Weight</p>
+              <p>{(pokemon.weight * 0.1).toPrecision(3)} kg</p>
+            </div>
+            <div className="ability">
+              <p>Ability</p>
+              {pokemon.abilities.map(({ ability }) => {
+                return <p key={ability.name}>{ability.name}</p>;
+              })}
+            </div>
+          </div>
+          <div className="detail-button">
+            <Link to={`/${pokemon.name}`}>
+              detail
+              <GrLinkNext />
+            </Link>
+          </div>
         </div>
-      </PokemonCardStyled>
-    </Link>
+      </div>
+    </PokemonCardStyled>
   );
 };
 
@@ -97,11 +110,11 @@ const TypeTag = styled.li`
   box-shadow: ${({ theme, type }) => {
     const typeColor = theme[type];
     if (typeof typeColor === "string") {
-      return `3px 3px 5px ${lighten(0.1, typeColor)},
-          -3px -3px 5px ${lighten(0.2, typeColor)}`;
+      return `2px 2px 4px ${lighten(0.1, typeColor)},
+          -2px -2px 4px ${lighten(0.3, typeColor)}`;
     } else {
-      return `3px 3px 5px ${lighten(0.1, typeColor[0])},
-          -3px -3px 5px ${lighten(0.2, typeColor[0])}`;
+      return `2px 2px 4px ${lighten(0.1, typeColor[0])},
+          -2px -2px 4px ${lighten(0.3, typeColor[0])}`;
     }
   }};
   background: ${({ theme, type }) => {
@@ -115,10 +128,61 @@ const TypeTag = styled.li`
 `;
 const PokemonCardStyled = styled.div`
   border-radius: 15px;
-  box-shadow: 20px 20px 60px #c9c9c9, -20px -20px 60px #ffffff;
   backdrop-filter: blur(5px);
 
-  &.card {
+  & {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.3s ease-in;
+    &.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &:hover {
+    animation: ${wobbleHorBottom} 0.8s both;
+  }
+
+  &.scene {
+    /* width: 100%; */
+    aspect-ratio: 2 / 3;
+    perspective: 600px;
+    display: flex;
+  }
+
+  .card {
+    position: relative;
+    flex: 1;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: 20px 20px 60px #c9c9c9, -20px -20px 60px #ffffff;
+  }
+
+  .card.is-flipped {
+    transform: rotateY(180deg);
+  }
+
+  .card__face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+  }
+
+  .card__face--front {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card__face--back {
+    transform: rotateY(180deg);
     background: ${({ theme, types }) => {
       const typeColor = theme[types[0].type.name];
       if (typeof typeColor === "string") {
@@ -130,43 +194,112 @@ const PokemonCardStyled = styled.div`
         )}, ${rgba(typeColor[1], theme.alpha.sm)})`;
       }
     }};
-    opacity: 0;
-    transform: translateY(100px);
-    transition: all 0.3s ease-in;
-    &.active {
-      opacity: 1;
-      transform: translateY(0);
+    flex: 1;
+
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    img {
+      width: 5rem;
+      position: relative;
+      top: -1rem;
+      left: -1rem;
+      filter: drop-shadow(5px 5px 0px rgba(0, 0, 0, 0.2));
     }
-    .header {
-      background: ${({ theme, types }) => {
-        const typeColor = theme[types[0].type.name];
-        if (typeof typeColor === "string") {
-          return rgba(typeColor, theme.alpha.md);
-        } else {
-          return `linear-gradient(to bottom right, ${rgba(
-            typeColor[0],
-            theme.alpha.md
-          )}, ${rgba(typeColor[1], theme.alpha.md)})`;
-        }
-      }};
+    .table {
+      flex: 1;
+      display: grid;
+      /* grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); */
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+
+      p:nth-of-type(1) {
+        color: #555;
+        line-height: 1.5;
+        border-bottom: ${({ theme, types }) => {
+          const typeColor = theme[types[0].type.name];
+
+          if (typeof typeColor === "string") {
+            return `1px solid ${typeColor}`;
+          } else {
+            return `1px solid ${typeColor[0]}`;
+          }
+        }};
+      }
+      p:nth-of-type(2) {
+        margin-top: 0.25rem;
+        line-height: 1.5;
+      }
+    }
+    .ability {
+      grid-column: 1 / -1;
+      p {
+        text-transform: capitalize;
+      }
+    }
+    .detail-button {
+      display: flex;
+      justify-content: flex-end;
+      a {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+
+        background: ${({ theme, types }) => {
+          const typeColor = theme[types[0].type.name];
+
+          if (typeof typeColor === "string") {
+            return `${rgba(typeColor, theme.alpha.md)}`;
+          } else {
+            return `${typeColor[0]}`;
+          }
+        }};
+      }
     }
   }
 
-  &:hover {
-    animation: ${wobbleHorBottom} 0.8s both;
-  }
   .header {
+    background: ${({ theme, types }) => {
+      const typeColor = theme[types[0].type.name];
+      if (typeof typeColor === "string") {
+        return rgba(typeColor, theme.alpha.md);
+      } else {
+        return `linear-gradient(to bottom right, ${rgba(
+          typeColor[0],
+          theme.alpha.md
+        )}, ${rgba(typeColor[1], theme.alpha.md)})`;
+      }
+    }};
+
     padding: 2rem;
     display: flex;
-    justify-content: center;
     aspect-ratio: 1;
     border-radius: 10px 10px 0 0;
+    img {
+      flex: 1;
+    }
   }
 
   .detail {
+    flex: 1;
     padding: 0.5rem;
-    display: grid;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: ${({ theme, types }) => {
+      const typeColor = theme[types[0].type.name];
+      if (typeof typeColor === "string") {
+        return rgba(typeColor, theme.alpha.sm);
+      } else {
+        return `linear-gradient(to bottom right, ${rgba(
+          typeColor[0],
+          theme.alpha.sm
+        )}, ${rgba(typeColor[1], theme.alpha.sm)})`;
+      }
+    }};
   }
   .id {
     color: #999;
@@ -176,6 +309,7 @@ const PokemonCardStyled = styled.div`
     text-transform: capitalize;
     font-weight: bold;
     font-size: 1.125rem;
+    flex: 1;
   }
   ul {
     list-style: none;

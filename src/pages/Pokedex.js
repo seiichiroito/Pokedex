@@ -34,8 +34,14 @@ const Pokedex = () => {
         id: data.id,
         name: data.name,
         types: data.types,
-        image: data.sprites.other.dream_world.front_default,
-        hoverImage: data.sprites.other["official-artwork"].front_default,
+        image: {
+          default: data.sprites.other.dream_world.front_default,
+          icon: data.sprites.front_default,
+          art_work: data.sprites.other["official-artwork"].front_default,
+        },
+        height: data.height,
+        weight: data.weight,
+        abilities: data.abilities,
       };
     });
 

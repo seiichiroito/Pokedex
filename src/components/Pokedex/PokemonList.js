@@ -3,10 +3,6 @@ import bgImage from "../../assets/image/bg.svg";
 import PokemonCard from "./PokemonCard";
 
 const PokemonList = ({ pokemons, seeAllHandler, onSortChange }) => {
-  const clickCardHandler = (pokemonName) => {
-    // console.log(pokemonName);
-  };
-
   const changeSortHandler = (e) => {
     onSortChange(e.target.value);
   };
@@ -28,13 +24,7 @@ const PokemonList = ({ pokemons, seeAllHandler, onSortChange }) => {
           </div>
         </div>
         {pokemons.map((pokemon) => {
-          return (
-            <PokemonCard
-              key={pokemon.id}
-              pokemon={pokemon}
-              onClickCard={clickCardHandler}
-            />
-          );
+          return <PokemonCard key={pokemon.id} pokemon={pokemon} />;
         })}
       </div>
       {pokemons.length === 20 && (

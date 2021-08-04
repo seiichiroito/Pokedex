@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { AiOutlineGithub } from "react-icons/ai";
+import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <HeaderStyled>
-      <p>Pokedex</p>
+      <Link to="/">Pokedex</Link>
       <a
         href="https://github.com/seiichiroito/Pokedex"
         target="_blank"
@@ -21,9 +22,11 @@ const HeaderStyled = styled.header`
 
   /* background: linear-gradient(to right, #0f2027, #203a43, #2c5364); */
   position: relative;
-  p {
+
+  display: flex;
+  justify-content: center;
+  a {
     font-size: 2em;
-    text-align: center;
     color: #f3f3f3;
   }
   svg {
