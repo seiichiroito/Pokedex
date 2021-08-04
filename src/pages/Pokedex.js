@@ -21,6 +21,12 @@ const Pokedex = () => {
   const [sort, setSort] = useState(null);
 
   const fetchPokemons = useCallback(async () => {
+    const localData = JSON.parse(localStorage.getItem("allPokemons"));
+
+    if (localData) {
+      setAllPokemons(localData);
+      return;
+    }
     const data = await sendRequest({
       url: API_URL,
     });
@@ -45,6 +51,8 @@ const Pokedex = () => {
         abilities: data.abilities,
       };
     });
+
+    localStorage.setItem("allPokemons", JSON.stringify(pokemonsData));
 
     setAllPokemons(pokemonsData);
   }, [sendRequest]);

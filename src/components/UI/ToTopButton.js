@@ -8,6 +8,8 @@ const ToTopButton = () => {
     threshold: 0,
   });
   const clickHandler = () => {
+    if (inView) return;
+
     window.scrollTo({
       top: 0,
       left: 0,
@@ -16,9 +18,9 @@ const ToTopButton = () => {
   };
 
   return ReactDOM.createPortal(
-    <ToTopButtonStyled onClick={clickHandler}>
+    <ToTopButtonStyled>
       <div ref={ref}></div>
-      <button className={inView ? "" : "is-visible"}>
+      <button className={inView ? "" : "is-visible"} onClick={clickHandler}>
         <BiArrowToTop />
       </button>
     </ToTopButtonStyled>,
@@ -32,6 +34,7 @@ const ToTopButtonStyled = styled.div`
     top: 0;
     width: 100vw;
     height: 100vh;
+    z-index: -1;
   }
   button {
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);

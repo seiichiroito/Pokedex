@@ -6,7 +6,7 @@ import { rgba } from "polished";
 import Layout from "../components/layout/Layout";
 import useHttp from "../hooks/use-http";
 import bgImage from "../assets/image/bg.svg";
-import Cube from "../components/UI/Cube";
+
 const API_URL = "https://pokeapi.co/api/v2/pokemon";
 
 const Pokemon = () => {
@@ -15,16 +15,22 @@ const Pokemon = () => {
   const { sendRequest } = useHttp();
 
   const fetchPokemon = useCallback(async () => {
-    const responseData = await sendRequest({
+    const data = await sendRequest({
       url: `${API_URL}/${name}`,
     });
 
     const pokemonData = {
-      id: responseData.id,
-      name: responseData.name,
-      types: responseData.types,
-      image: responseData.sprites.other.dream_world.front_default,
-      hoverImage: responseData.sprites.other["official-artwork"].front_default,
+      id: data.id,
+      name: data.name,
+      types: data.types,
+      image: {
+        default: data.sprites.other.dream_world.front_default,
+        icon: data.sprites.front_default,
+        art_work: data.sprites.other["official-artwork"].front_default,
+      },
+      height: data.height,
+      weight: data.weight,
+      abilities: data.abilities,
     };
 
     setPokemon(pokemonData);
@@ -40,19 +46,19 @@ const Pokemon = () => {
 
   return (
     <Layout>
-      <PokemonStyled types={pokemon?.types}>
+      <PokemonStyled types={pokemon.types}>
         {/* Name and back link */}
         <div className="container">
           <header className="header">
-            <h1>{pokemon?.name}</h1>
+            <h1>{pokemon.name}</h1>
             <span className="id">
-              #{pokemon?.id.toString().padStart(3, "0")}
+              #{pokemon.id.toString().padStart(3, "0")}
             </span>
           </header>
 
           {/* Image and Status */}
           <main className="content">
-            <Cube pokemon={pokemon}/>
+            <img src={pokemon.image.default} alt={pokemon.name} />
           </main>
 
           {/* Evolutions and Other info */}
